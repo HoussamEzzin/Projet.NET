@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QuizAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="admin">
+    <Key>
+      <PropertyRef Name="adminId" />
+    </Key>
+    <Property Name="adminId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="adminName" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="adminPassword" Type="nvarchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="course">
+    <Key>
+      <PropertyRef Name="courseId" />
+    </Key>
+    <Property Name="courseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="courseName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="courseAdminId" Type="int" />
+  </EntityType>
+  <EntityType Name="exam">
+    <Key>
+      <PropertyRef Name="examId" />
+    </Key>
+    <Property Name="examId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="examDate" Type="datetime" />
+    <Property Name="examStudentId" Type="int" />
+    <Property Name="examName" Type="nvarchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="question">
+    <Key>
+      <PropertyRef Name="questionId" />
+    </Key>
+    <Property Name="questionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="questionText" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="optionA" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="optionB" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="optionC" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="optionD" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="correctAnswer" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="questionCourseId" Type="int" />
+  </EntityType>
+  <EntityType Name="student">
+    <Key>
+      <PropertyRef Name="studentId" />
+    </Key>
+    <Property Name="studentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="studentName" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="studentPassword" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="studentImage" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__course__courseAd__36B12243">
+    <End Role="admin" Type="Self.admin" Multiplicity="0..1" />
+    <End Role="course" Type="Self.course" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="admin">
+        <PropertyRef Name="adminId" />
+      </Principal>
+      <Dependent Role="course">
+        <PropertyRef Name="courseAdminId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__exam__examStuden__2F10007B">
+    <End Role="student" Type="Self.student" Multiplicity="0..1" />
+    <End Role="exam" Type="Self.exam" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="student">
+        <PropertyRef Name="studentId" />
+      </Principal>
+      <Dependent Role="exam">
+        <PropertyRef Name="examStudentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__question__questi__37A5467C">
+    <End Role="course" Type="Self.course" Multiplicity="0..1" />
+    <End Role="question" Type="Self.question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="course">
+        <PropertyRef Name="courseId" />
+      </Principal>
+      <Dependent Role="question">
+        <PropertyRef Name="questionCourseId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QuizAppModelStoreContainer">
+    <EntitySet Name="admin" EntityType="Self.admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="course" EntityType="Self.course" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="exam" EntityType="Self.exam" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="question" EntityType="Self.question" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="student" EntityType="Self.student" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__course__courseAd__36B12243" Association="Self.FK__course__courseAd__36B12243">
+      <End Role="admin" EntitySet="admin" />
+      <End Role="course" EntitySet="course" />
+    </AssociationSet>
+    <AssociationSet Name="FK__exam__examStuden__2F10007B" Association="Self.FK__exam__examStuden__2F10007B">
+      <End Role="student" EntitySet="student" />
+      <End Role="exam" EntitySet="exam" />
+    </AssociationSet>
+    <AssociationSet Name="FK__question__questi__37A5467C" Association="Self.FK__question__questi__37A5467C">
+      <End Role="course" EntitySet="course" />
+      <End Role="question" EntitySet="question" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

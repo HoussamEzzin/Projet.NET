@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="QuizAppModelStoreContainer" CdmEntityContainer="QuizAppEntities">
+    <EntitySetMapping Name="admins">
+      <EntityTypeMapping TypeName="QuizAppModel.admin">
+        <MappingFragment StoreEntitySet="admin">
+          <ScalarProperty Name="adminId" ColumnName="adminId" />
+          <ScalarProperty Name="adminName" ColumnName="adminName" />
+          <ScalarProperty Name="adminPassword" ColumnName="adminPassword" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="exams">
+      <EntityTypeMapping TypeName="QuizAppModel.exam">
+        <MappingFragment StoreEntitySet="exam">
+          <ScalarProperty Name="examId" ColumnName="examId" />
+          <ScalarProperty Name="examDate" ColumnName="examDate" />
+          <ScalarProperty Name="examStudentId" ColumnName="examStudentId" />
+          <ScalarProperty Name="examName" ColumnName="examName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="questions">
+      <EntityTypeMapping TypeName="QuizAppModel.question">
+        <MappingFragment StoreEntitySet="question">
+          <ScalarProperty Name="questionCourseId" ColumnName="questionCourseId" />
+          <ScalarProperty Name="questionId" ColumnName="questionId" />
+          <ScalarProperty Name="questionText" ColumnName="questionText" />
+          <ScalarProperty Name="optionA" ColumnName="optionA" />
+          <ScalarProperty Name="optionB" ColumnName="optionB" />
+          <ScalarProperty Name="optionC" ColumnName="optionC" />
+          <ScalarProperty Name="optionD" ColumnName="optionD" />
+          <ScalarProperty Name="correctAnswer" ColumnName="correctAnswer" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="students">
+      <EntityTypeMapping TypeName="QuizAppModel.student">
+        <MappingFragment StoreEntitySet="student">
+          <ScalarProperty Name="studentId" ColumnName="studentId" />
+          <ScalarProperty Name="studentName" ColumnName="studentName" />
+          <ScalarProperty Name="studentPassword" ColumnName="studentPassword" />
+          <ScalarProperty Name="studentImage" ColumnName="studentImage" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="courses">
+      <EntityTypeMapping TypeName="QuizAppModel.course">
+        <MappingFragment StoreEntitySet="course">
+          <ScalarProperty Name="courseAdminId" ColumnName="courseAdminId" />
+          <ScalarProperty Name="courseName" ColumnName="courseName" />
+          <ScalarProperty Name="courseId" ColumnName="courseId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

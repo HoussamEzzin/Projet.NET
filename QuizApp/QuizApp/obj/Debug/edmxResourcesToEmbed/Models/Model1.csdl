@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QuizAppModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="admin">
+    <Key>
+      <PropertyRef Name="adminId" />
+    </Key>
+    <Property Name="adminId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="adminName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="adminPassword" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="courses" Relationship="QuizAppModel.FK__course__courseAd__36B12243" FromRole="admin" ToRole="course" />
+  </EntityType>
+  <EntityType Name="exam">
+    <Key>
+      <PropertyRef Name="examId" />
+    </Key>
+    <Property Name="examId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="examDate" Type="DateTime" Precision="3" />
+    <Property Name="examStudentId" Type="Int32" />
+    <Property Name="examName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="student" Relationship="Self.FK__exam__examStuden__2F10007B" FromRole="exam" ToRole="student" />
+  </EntityType>
+  <EntityType Name="question">
+    <Key>
+      <PropertyRef Name="questionId" />
+    </Key>
+    <Property Name="questionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="questionText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="optionA" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="optionB" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="optionC" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="optionD" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="correctAnswer" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="questionCourseId" Type="Int32" />
+    <NavigationProperty Name="course" Relationship="QuizAppModel.FK__question__questi__37A5467C" FromRole="question" ToRole="course" />
+  </EntityType>
+  <EntityType Name="student">
+    <Key>
+      <PropertyRef Name="studentId" />
+    </Key>
+    <Property Name="studentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="studentName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="studentPassword" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="studentImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="exams" Relationship="Self.FK__exam__examStuden__2F10007B" FromRole="student" ToRole="exam" />
+  </EntityType>
+  <Association Name="FK__exam__examStuden__2F10007B">
+    <End Role="student" Type="Self.student" Multiplicity="0..1" />
+    <End Role="exam" Type="Self.exam" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="student">
+        <PropertyRef Name="studentId" />
+      </Principal>
+      <Dependent Role="exam">
+        <PropertyRef Name="examStudentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QuizAppEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="admins" EntityType="Self.admin" />
+    <EntitySet Name="exams" EntityType="Self.exam" />
+    <EntitySet Name="questions" EntityType="Self.question" />
+    <EntitySet Name="students" EntityType="Self.student" />
+    <AssociationSet Name="FK__exam__examStuden__2F10007B" Association="Self.FK__exam__examStuden__2F10007B">
+      <End Role="student" EntitySet="students" />
+      <End Role="exam" EntitySet="exams" />
+    </AssociationSet>
+    <EntitySet Name="courses" EntityType="QuizAppModel.course" />
+    <AssociationSet Name="FK__course__courseAd__36B12243" Association="QuizAppModel.FK__course__courseAd__36B12243">
+      <End Role="admin" EntitySet="admins" />
+      <End Role="course" EntitySet="courses" />
+    </AssociationSet>
+    <AssociationSet Name="FK__question__questi__37A5467C" Association="QuizAppModel.FK__question__questi__37A5467C">
+      <End Role="course" EntitySet="courses" />
+      <End Role="question" EntitySet="questions" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="course">
+    <Key>
+      <PropertyRef Name="courseId" />
+    </Key>
+    <Property Name="courseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="courseName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="courseAdminId" Type="Int32" />
+    <NavigationProperty Name="admin" Relationship="QuizAppModel.FK__course__courseAd__36B12243" FromRole="course" ToRole="admin" />
+    <NavigationProperty Name="questions" Relationship="QuizAppModel.FK__question__questi__37A5467C" FromRole="course" ToRole="question" />
+  </EntityType>
+  <Association Name="FK__course__courseAd__36B12243">
+    <End Type="QuizAppModel.admin" Role="admin" Multiplicity="0..1" />
+    <End Type="QuizAppModel.course" Role="course" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="admin">
+        <PropertyRef Name="adminId" />
+      </Principal>
+      <Dependent Role="course">
+        <PropertyRef Name="courseAdminId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__question__questi__37A5467C">
+    <End Type="QuizAppModel.course" Role="course" Multiplicity="0..1" />
+    <End Type="QuizAppModel.question" Role="question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="course">
+        <PropertyRef Name="courseId" />
+      </Principal>
+      <Dependent Role="question">
+        <PropertyRef Name="questionCourseId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
